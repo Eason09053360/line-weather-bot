@@ -1,0 +1,36 @@
+name: Daily Weather Notification
+
+on:
+  schedule:
+    # 設定每天執行時間
+    # GitHub 使用 UTC 時間，台灣是 UTC+8
+    # 所以台灣早上 08:30 = UTC 00:30
+    - cron: '30 0 * * *'
+  
+  # 讓您可以手動點擊按鈕測試執行 (Workflow Dispatch)
+  workflow_dispatch:
+
+jobs:
+  send-weather:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 下載程式碼 (Checkout)
+      uses: actions/checkout@v3
+
+    - name: 設定 Python 環境
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: 安裝套件
+      run: |
+        pip install -r requirements.txt
+
+    - name: 執行天氣機器人
+      env:
+        # 這裡會把剛剛設定的 Secrets 注入到環境變數中
+        LINE_ACCESS_TOKEN: ${{ secrets.LINE_ACCESS_TOKEN }}
+        YOUR_USER_ID: ${{ secrets.YOUR_USER_ID }}
+      run: |
+        python line_bot_weather.py
