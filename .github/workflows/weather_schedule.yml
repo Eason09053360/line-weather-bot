@@ -4,8 +4,8 @@ on:
   schedule:
     # 設定每天執行時間
     # GitHub 使用 UTC 時間，台灣是 UTC+8
-    # 所以台灣早上 08:23 = UTC 00:23 避免高峰時段
-    - cron: '15 7 * * *'
+    # 所以台灣早上 08:13 = UTC 00:13 避免高峰時段
+    - cron: '13 0 * * *'
   
   # 讓您可以手動點擊按鈕測試執行 (Workflow Dispatch)
   workflow_dispatch:
